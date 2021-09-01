@@ -8,8 +8,8 @@ app.use(
     extended: true,
   })
 );
-
-app.listen(3000, (error) => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, (error) => {
   if (error) return handleError(error);
   else return console.log("App listening on port 4000");
 });
