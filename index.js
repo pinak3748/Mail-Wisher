@@ -11,7 +11,7 @@ app.use(
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (error) => {
   if (error) return handleError(error);
-  else return console.log("App listening on port 4000");
+  else return console.log(`App listening on port ${PORT} `);
 });
 
 const validation = require("./middleware/validation");
