@@ -31,7 +31,7 @@ module.exports = (req, res) => {
     req.query.relation == "wife" ||
     req.query.relation == "husband"
   ) {
-    console.log("no asdrelation");
+
     jsonFile.readFile("./assets/birth.json", (err, jsonString) => {
       if (err) {
         console.log("File read failed:", err);
