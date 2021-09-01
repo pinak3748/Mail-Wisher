@@ -18,5 +18,8 @@ const validation = require("./middleware/validation");
 const Birthday_script = require("./controllers/birthday_script");
 app.post("/birthday/:username", validation, Birthday_script);
 
+app.get('/', function(req, res) {
+  res.send('Hello Sir')
+})
 
 //https://mail-wisher.herokuapp.com/
