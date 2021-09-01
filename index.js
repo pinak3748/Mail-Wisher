@@ -17,3 +17,6 @@ app.listen(PORT, (error) => {
 const validation = require("./middleware/validation");
 const Birthday_script = require("./controllers/birthday_script");
 app.post("/birthday/:username", validation, Birthday_script);
+
+
+//https://mail-wisher.herokuapp.com/

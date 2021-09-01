@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
       minDomainSegments: 2,
       tlds: { allow: ["com", "net"] },
     }),
+    relation: Joi.string(),
   });
 
   const result = schema.validate(req.body);

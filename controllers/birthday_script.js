@@ -6,13 +6,14 @@ module.exports = (req, res) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  if ( typeof req.query === "undefined" || req.query === null) {
+  if ( typeof req.body.relation === "undefined" || req.body.relation === null) {
     jsonFile.readFile("./assets/birth.json", (err, jsonString) => {
       if (err) {
         res.status(404).send("The server could not read File");
         return;
       }
       try {
+        console.log("no relation")
         jsonString.forEach(function (data) {
           var sendMail = require("../services/sendMail.js");
           if (data.relation == "friend") {
@@ -24,12 +25,12 @@ module.exports = (req, res) => {
       }
     });
   } else if (
-    req.query.relation == "friend" ||
-    req.query.relation == "grandma" ||
-    req.query.relation == "grandfather" ||
-    req.query.relation == "brother" ||
-    req.query.relation == "wife" ||
-    req.query.relation == "husband"
+    req.body.relation == "friend" ||
+    req.body.relation == "grandma" ||
+    req.body.relation == "grandfather" ||
+    req.body.relation == "brother" ||
+    req.body.relation == "wife" ||
+    req.body.relation == "husband"
   ) {
 
     jsonFile.readFile("./assets/birth.json", (err, jsonString) => {
@@ -39,9 +40,10 @@ module.exports = (req, res) => {
       }
 
       try {
+        console.log("relation")
         jsonString.forEach(function (data) {
           var sendMail = require("../services/sendMail.js");
-          if (data.relation == req.query.relation) {
+          if (data.relation == req.body.relation) {
             sendMail(req, res, data.quotes[rand(0, 9)]);
           }
         });
