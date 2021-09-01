@@ -10,10 +10,8 @@ module.exports = (req, res, quote) => {
   var year = date.getFullYear();
 
   var current = new Date();
-  var c_day = current.getDate();
-  var c_month = current.getMonth() + 1;
-  var c_year = current.getFullYear();
 
+ 
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -35,18 +33,30 @@ module.exports = (req, res, quote) => {
     html: html(quote, req.params.username, req.body.receiver_name),
   };
 
-  if (c_year > year) {
-    res.status(400).send("We can't schedule the mail Passed the Date");
-  } 
-  else if (c_year <= year) {
-    cron.schedule(`0 0 0 ${day} ${month} ? ${year} `, () => {
-      transporter.sendMail(mailOptions, function (err, info) {
-        if (err) console.log(err);
-        else res.status(200).send("mail has been send sucessfully");
-      });
-    });
-  } 
+  if(current > date){
 
- 
+    res.status(400).send("We can't schedule the mail Passed the Date");
+  }
+  else if(current <= date){
+    try{
+      cron.schedule(`0 0 0 ${day} ${month} * ${year}`, () => {
+        
+        transporter.sendMail(mailOptions,function(err, info) {
+          if (err){
+            console.log(err);
+          } 
+          else{
+            console.log(info)          
+          }
+        });
+      });
+    }catch(err){
+      console.log(err)
+        res.status(500).send("Something went wrong! y")
+    }
+    res.status(200).send("mail has been send sucessfully\n");
+  }
+  
+
  
 };

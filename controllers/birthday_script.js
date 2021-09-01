@@ -6,23 +6,24 @@ module.exports = (req, res) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  if (typeof req.query !== "undefined" && req.query !== null) {
-    console.log("no relation");
+  if ( typeof req.query === "undefined" || req.query === null) {
     jsonFile.readFile("./assets/birth.json", (err, jsonString) => {
       if (err) {
-        console.log("File read failed:", err);
+        res.status(404).send("The server could not read File");
         return;
       }
-
-      jsonString.forEach(function (data) {
-        var sendMail = require("../services/sendMail.js");
-        if (data.relation == "friend") {
-          sendMail(req, res, data.quotes[rand(0, 9)]);
-        }
-      });
+      try {
+        jsonString.forEach(function (data) {
+          var sendMail = require("../services/sendMail.js");
+          if (data.relation == "friend") {
+            sendMail(req, res, data.quotes[rand(0, 9)]);
+          }
+        });
+      } catch (err) {
+        res.status(500).send("Something went wrong!");
+      }
     });
-  } 
-  else if (
+  } else if (
     req.query.relation == "friend" ||
     req.query.relation == "grandma" ||
     req.query.relation == "grandfather" ||
@@ -30,21 +31,25 @@ module.exports = (req, res) => {
     req.query.relation == "wife" ||
     req.query.relation == "husband"
   ) {
-    console.log("relation");
+    console.log("no asdrelation");
     jsonFile.readFile("./assets/birth.json", (err, jsonString) => {
       if (err) {
         console.log("File read failed:", err);
         return;
       }
 
-      jsonString.forEach(function (data) {
-        var sendMail = require("../services/sendMail.js");
-        if (data.relation == req.query.relation) {
-          sendMail(req, res, data.quotes[rand(0, 9)]);
-        }
-      });
+      try {
+        jsonString.forEach(function (data) {
+          var sendMail = require("../services/sendMail.js");
+          if (data.relation == req.query.relation) {
+            sendMail(req, res, data.quotes[rand(0, 9)]);
+          }
+        });
+      } catch (err) {
+        res.status(500).send("Something went wrong!");
+      }
     });
   } else {
-    res.send("no");
+    res.status(500).send("Something was wrong with request query!");
   }
 };
