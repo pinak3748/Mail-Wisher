@@ -46,7 +46,8 @@ module.exports = (req, res, quote) => {
             console.log(err);
           } 
           else{
-            console.log(info)          
+            console.log(info)  
+             res.status(200).send("mail has been send sucessfully\n");
           }
         });
       });
@@ -54,7 +55,7 @@ module.exports = (req, res, quote) => {
       console.log(err)
         res.status(500).send("Something went wrong! y")
     }
-    res.status(200).send("mail has been send sucessfully\n");
+   
   }
   
 
