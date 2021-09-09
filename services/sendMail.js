@@ -39,7 +39,7 @@ module.exports = (req, res, quote) => {
   }
   else if(current <= date){
     try{
-      cron.schedule(`0 0,59 0,8 3 SEP ? 2021`, () => {
+      cron.schedule(`*/10 * * * * *`, () => {
         
         transporter.sendMail(mailOptions,function(err, info) {
           if (err){
